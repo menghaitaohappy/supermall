@@ -1,5 +1,5 @@
 <template>
-  <div class="tab-bar-item" @click="itemClick">
+  <div class="tab-bar-item" @click="itemClick" :style="activeBcColor">
     <div v-if="!isActive">
       <slot name="item-icon"></slot>
     </div>
@@ -20,6 +20,10 @@
       activeColor: {
         type: String,
         default: 'orangered'
+      },
+      bcColor: {
+        type: String,
+        default: 'aliceblue'
       }
     },
     data() {
@@ -32,6 +36,9 @@
       },
       activeStyle() {
         return this.isActive ? {color: this.activeColor} : {};
+      },
+      activeBcColor(){
+        return this.isActive?{background:this.bcColor}:{}
       }
     },
     methods: {
