@@ -24,7 +24,7 @@ export function request(config) {
   //2.2响应拦截
   instance.interceptors.response.use(res => {
     // console.log(res);
-     return res.data; //过滤掉其他信息，只要数据data结果
+    return res.data; //过滤掉其他信息，只要数据data结果
     return res;
   }, err => {
     // console.log(err);

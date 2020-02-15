@@ -37,8 +37,8 @@
       activeStyle() {
         return this.isActive ? {color: this.activeColor} : {};
       },
-      activeBcColor(){
-        return this.isActive?{background:this.bcColor}:{}
+      activeBcColor() {
+        return this.isActive ? {background: this.bcColor} : {}
       }
     },
     methods: {

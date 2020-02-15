@@ -1,10 +1,10 @@
 <template>
-  <h2>分类</h2>
+  <div class="goods"></div>
 </template>
 
 <script>
   export default {
-    name: "Category"
+    name: "GoodList"
   }
 </script>
 
