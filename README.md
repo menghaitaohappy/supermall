@@ -1,26 +1,14 @@
-# xmgmail
+<p align="center">
+  <img src="https://img.shields.io/github/license/joarn/supermall?style=plastic" alt="license">
 
-## Project setup
-```
-npm install
-```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+  </p>
+<h2 align="center">SuperMall</h2>
 
-### Compiles and minifies for production
-```
-npm run build
-```
+SuperMall is an MIT-licensed open source project
+## Introduction
+SuperMall is a small WEB program for shopping malls. The design pattern can be referenced step by step, and the components inside can be extracted according to different use cases. It uses a lot of technology, and one can help you solve the complexity in large single-page applications.
+## LICENSE
+[MIT](http://opensource.org/licenses/MIT)
 
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
+Copyright (c) 2020-present, Joarn
