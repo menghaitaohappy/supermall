@@ -117,13 +117,13 @@
     },
     mounted() {
       this.scroll = new BScroll(this.$refs.a, {
-        probeType:3,
-        pullUpLoad:true
+        probeType: 3,
+        pullUpLoad: true
       });
-      this.scroll.on('scroll',(position)=>{
+      this.scroll.on('scroll', (position) => {
         // console.log(position);
       });
-      this.scroll.on('pullingUp',()=>{
+      this.scroll.on('pullingUp', () => {
         console.log('test');
       })
     }

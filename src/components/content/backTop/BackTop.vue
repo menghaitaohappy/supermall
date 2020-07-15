@@ -7,8 +7,8 @@
 <script>
   export default {
     name: "BackTop",
-    methods:{
-      backClick(){
+    methods: {
+      backClick() {
         this.$emit('backClick');
       }
     }
