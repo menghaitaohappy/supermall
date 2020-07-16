@@ -20,5 +20,10 @@ export class Goods {
     this.columns = columns;
     this.services = services;
   }
-
 }
+
+// export class Shop {
+//   constructor(shopInfo) {
+//     this.shopLogo = shopInfo.shopLogo;
+//   }
+// }

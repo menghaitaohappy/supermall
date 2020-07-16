@@ -1,8 +1,12 @@
 <template>
   <div id="detail">
     <detail-nav-bar></detail-nav-bar>
-    <detail-swiper :top-images="topImages"></detail-swiper>
-    <detail-base-info :goods="goods"></detail-base-info>
+    <Scroll class="content">
+      <detail-swiper :top-images="topImages"></detail-swiper>
+      <detail-base-info :goods="goodsInfo"></detail-base-info>
+      <detail-shop-info :shop="shopInfo"></detail-shop-info>
+    </Scroll>
+
   </div>
 </template>
 
@@ -10,20 +14,25 @@
   import DetailNavBar from "./childComps/DetailNavBar";
   import {getDetail, Goods} from "../../network/detail";
   import DetailSwiper from "./childComps/DetailSwiper";
-  import DetailBaseInfo from "../home/childComps/DetailBaseInfo";
+  import DetailBaseInfo from "./childComps/DetailBaseInfo";
+  import Scroll from "../../components/common/scroll/Scroll";
+  import DetailShopInfo from "./childComps/DetailShopInfo";
 
   export default {
     name: "Detail",
     components: {
       DetailNavBar,
       DetailSwiper,
-      DetailBaseInfo
+      DetailBaseInfo,
+      Scroll,
+      DetailShopInfo
     },
     data() {
       return {
         iid: null,
         topImages: [],
-        goods: {}
+        goodsInfo: {},
+        shopInfo: {}
       }
     },
     created() {
@@ -34,12 +43,24 @@
         //1 获取顶部的图片轮播数据
         this.topImages = res.result.itemInfo.topImages;
         //2 获取商品信息
-        this.goods = new Goods(res.result.itemInfo, res.result.columns, res.result.shopInfo.services)
+        this.goodsInfo = new Goods(res.result.itemInfo, res.result.columns, res.result.shopInfo.services);
+        //3 去除店铺的信息
+        this.shopInfo=res.result.shopInfo;
       })
     }
   }
 </script>
 
 <style scoped>
+  #detail {
+    height: 100vh;
+    background-color: #fff;
+    position: relative;
+    z-index: 1;
+  }
 
+  .content {
+    background-color: #fff;
+    height: calc(100% - 44px);
+  }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav-bar>
+    <nav-bar class="detail-nav">
       <div slot="left" class="back" @click="backClick">
         <img src="~assets/img/common/back.svg" alt="">
       </div>
@@ -34,8 +34,8 @@
     methods: {
       titleClick(index) {
         this.currentIndex = index;
-     },
-      backClick(){
+      },
+      backClick() {
         this.$router.back()
       }
     }
@@ -43,6 +43,12 @@
 </script>
 
 <style scoped>
+  .detail-nav {
+    position: relative;
+    z-index: 9;
+    background-color: #fff;
+  }
+
   .title {
     display: flex;
     font-size: 13px;

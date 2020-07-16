@@ -4,7 +4,6 @@ export function request(config) {
 
   //1.创建axios的实例
   const instance = Axios.create({
-
     timeout: 5000
   });
 

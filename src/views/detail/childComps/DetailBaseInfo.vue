@@ -4,7 +4,7 @@
     <div class="info-price">
       <span class="n-price">{{goods.newPrice}}</span>
       <span class="o-price">{{goods.oldPrice}}</span>
-      <span v-if="goods.discount" class="discount">{{goods.discount}}</span>
+      <span class="discount">{{goods.discount}}</span>
     </div>
     <div class="info-other">
       <span>{{goods.columns[0]}}</span>
@@ -21,17 +21,14 @@
 </template>
 
 <script>
-  export default {
-    name: "DetailBaseInfo",
+	export default {
+		name: "DetailBaseInfo",
     props: {
-      goods: {
-        type: Object,
-        default() {
-          return {}
-        }
+		  goods: {
+		    type: Object
       }
     }
-  }
+	}
 </script>
 
 <style scoped>
@@ -68,6 +65,8 @@
     background-color: var(--color-high-text);
     border-radius: 8px;
     margin-left: 5px;
+
+    /*让元素上浮一些: 使用相对定位即可*/
     position: relative;
     top: -8px;
   }
@@ -77,7 +76,7 @@
     line-height: 30px;
     display: flex;
     font-size: 13px;
-    border-bottom: 1px solid rgba(100, 100, 100, .1);
+    border-bottom: 1px solid rgba(100,100,100,.1);
     justify-content: space-between;
   }
 
