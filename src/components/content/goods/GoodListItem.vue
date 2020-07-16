@@ -25,7 +25,12 @@
         this.$bus.$emit('itemImageLoad');
       },
       itemClick() {
-
+        this.$router.push({
+          path:'/detail',
+          query:{
+            iid:this.goodsItem.iid,
+          }
+        });
       }
     }
   }
