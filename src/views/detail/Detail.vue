@@ -1,14 +1,14 @@
 <template>
   <div id="detail">
-    <detail-nav-bar></detail-nav-bar>
-    <Scroll class="content" ref="scroll">
+    <detail-nav-bar @titleClick="titleClick" ref="detailNav"></detail-nav-bar>
+    <Scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll">
       <detail-swiper :top-images="topImages"></detail-swiper>
       <detail-base-info :goods="goodsInfo"></detail-base-info>
       <detail-shop-info :shop="shopInfo"></detail-shop-info>
       <detail-image-info :detail-info="detailInfo" @detailImageLoad="detailImageLoad"></detail-image-info>
-      <detail-param-info :param-info="itemParams"></detail-param-info>
-      <detail-comment-info :comment-info="commonInfo"></detail-comment-info>
-      <good-list :goods="recommends"></good-list>
+      <detail-params-info ref="params" :param-info="itemParams"></detail-params-info>
+      <detail-comment-info ref="comment" :comment-info="commonInfo"></detail-comment-info>
+      <good-list ref="recommend" :goods="recommends"></good-list>
     </Scroll>
 
   </div>
@@ -22,10 +22,11 @@
   import Scroll from "../../components/common/scroll/Scroll";
   import DetailShopInfo from "./childComps/DetailShopInfo";
   import DetailImageInfo from "./childComps/DetailImageInfo";
-  import DetailParamInfo from "./childComps/DetailParamInfo";
+  import DetailParamsInfo from "./childComps/DetailParamsInfo";
   import DetailCommentInfo from "./childComps/DetailCommentInfo";
   import GoodList from "../../components/content/goods/GoodList";
   import {itemListenrMinin} from "../../common/minin";
+  import {debounce} from "../../common/utils";
 
   export default {
     name: "Detail",
@@ -36,7 +37,7 @@
       Scroll,
       DetailShopInfo,
       DetailImageInfo,
-      DetailParamInfo,
+      DetailParamsInfo,
       DetailCommentInfo,
       GoodList
     },
@@ -51,6 +52,9 @@
         itemParams: {},
         commonInfo: {},
         recommends: [],
+        themeTopYs: [0, 1000, 2000, 3000],
+        getThemeTopY: null,
+        currentIndex: 0
       }
     },
     created() {
@@ -76,16 +80,49 @@
       //3 请求推荐数据
       getRecommend().then(res => {
         this.recommends = res.data.list;
-      })
-    },
-    mounted() {
+      });
+      //4 给getThemeTopY赋值
+      this.getThemeTopY = debounce(() => {
+        this.themeTopYs = [];
+        this.themeTopYs.push(0);
+        this.themeTopYs.push(this.$refs.params.$el.offsetTop);
+        this.themeTopYs.push(this.$refs.comment.$el.offsetTop);
+        this.themeTopYs.push(this.$refs.recommend.$el.offsetTop);
+      }, 100)
+      //组件加载完后的回调函数,仅仅dom渲染好，如果有图片，可能依然没有加载好
+      //offsetTop值不对一般都是因为图片
+      // this.$nextTick(() => {
+      //   this.themeTopYs = [];
+      //   this.themeTopYs.push(0);
+      //   this.themeTopYs.push(this.$refs.params.$el.offsetTop);
+      //   this.themeTopYs.push(this.$refs.comment.$el.offsetTop);
+      //   this.themeTopYs.push(this.$refs.recommend.$el.offsetTop);
+      //   console.log(this.themeTopYs);
+      // });
     },
     destroyed() {
       this.$bus.$off("itemImageLoad", this.ItemImageListenr);
     },
     methods: {
       detailImageLoad() {
-        this.refresh();
+        this.newRefresh();
+        this.getThemeTopY();
+      },
+      titleClick(index) {
+        this.$refs.scroll.scrollTo(0, -this.themeTopYs[index], 100);
+      },
+      contentScroll(position) {
+        //[0, 1000, 2000, 3000]
+        //1 获取Y值
+        const positionY = -position.y;
+        //2 positionY和主题中值进行对比
+        const Tlength = this.themeTopYs.length;
+        for (let i = 1; i < Tlength; i++) {
+          if (positionY > this.themeTopYs[i - 1] && positionY <= this.themeTopYs[i])
+            this.$refs.detailNav.currentIndex = i - 1;
+          else if (i == Tlength - 1 && positionY > this.themeTopYs[i])
+            this.$refs.detailNav.currentIndex = i;
+        }
       }
     }
   }
