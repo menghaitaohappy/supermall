@@ -10,6 +10,8 @@
       <detail-comment-info ref="comment" :comment-info="commonInfo"></detail-comment-info>
       <good-list ref="recommend" :goods="recommends"></good-list>
     </Scroll>
+    <detail-bottom-bar @addCart="addToCart"></detail-bottom-bar>
+    <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
 
   </div>
 </template>
@@ -25,8 +27,9 @@
   import DetailParamsInfo from "./childComps/DetailParamsInfo";
   import DetailCommentInfo from "./childComps/DetailCommentInfo";
   import GoodList from "../../components/content/goods/GoodList";
-  import {itemListenrMinin} from "../../common/minin";
+  import {itemListenrMinin, backTopMixin} from "../../common/minin";
   import {debounce} from "../../common/utils";
+  import DetailBottomBar from "./childComps/DetailBottomBar";
 
   export default {
     name: "Detail",
@@ -39,9 +42,10 @@
       DetailImageInfo,
       DetailParamsInfo,
       DetailCommentInfo,
-      GoodList
+      GoodList,
+      DetailBottomBar,
     },
-    mixins: [itemListenrMinin],
+    mixins: [itemListenrMinin, backTopMixin],
     data() {
       return {
         iid: null,
@@ -54,7 +58,7 @@
         recommends: [],
         themeTopYs: [0, 1000, 2000, 3000],
         getThemeTopY: null,
-        currentIndex: 0
+        currentIndex: 0,
       }
     },
     created() {
@@ -118,11 +122,24 @@
         //2 positionY和主题中值进行对比
         const Tlength = this.themeTopYs.length;
         for (let i = 1; i < Tlength; i++) {
-          if (positionY > this.themeTopYs[i - 1] && positionY <= this.themeTopYs[i])
+          if (positionY >= this.themeTopYs[i - 1] && positionY < this.themeTopYs[i])
             this.$refs.detailNav.currentIndex = i - 1;
-          else if (i == Tlength - 1 && positionY > this.themeTopYs[i])
+          else if (i == Tlength - 1 && positionY >= this.themeTopYs[i])
             this.$refs.detailNav.currentIndex = i;
         }
+        //3 显示是否回到顶部
+        this.isShowBackTop = (-position.y) > 450;
+      },
+      addToCart() {
+        //1 获取购物车需要展示的信息
+        const product={};
+        product.img=this.topImages[0]
+        product.title=this.goodsInfo.title;
+        product.desc=this.goodsInfo.desc;
+        product.price=this.goodsInfo.newPrice;
+        product.iid=this.iid;
+        //2 将商品添加到购物车
+
       }
     }
   }
@@ -138,6 +155,6 @@
 
   .content {
     background-color: #fff;
-    height: calc(100% - 44px);
+    height: calc(100% - 44px - 49px);
   }
 </style>

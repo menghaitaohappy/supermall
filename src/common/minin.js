@@ -1,10 +1,11 @@
 import {debounce} from "./utils";
+import BackTop from "../components/content/backTop/BackTop";
 
 export const itemListenrMinin = {
   data() {
     return {
       ItemImageListener: null,
-      newRefresh:null
+      newRefresh: null
     }
   },
   mounted() {
@@ -16,4 +17,20 @@ export const itemListenrMinin = {
     }
     this.$bus.$on('itemImageLoad', this.ItemImageListener);
   }
+}
+export const backTopMixin = {
+  components: {
+    BackTop
+  },
+  data() {
+    return {
+      isShowBackTop: true
+    }
+  },
+  methods: {
+    backClick() {
+      this.$refs.scroll.scrollTo(0, 0, 650);
+    },
+  },
+
 }
