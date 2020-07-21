@@ -21,7 +21,6 @@
       // ...mapGetters(['cartLength','cartList'])
       //语法2,可以自定义名字
       ...mapGetters({length:'cartLength',list:'cartList'})
-
     }
   }
 </script>
