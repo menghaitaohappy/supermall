@@ -132,14 +132,17 @@
       },
       addToCart() {
         //1 获取购物车需要展示的信息
-        const product={};
-        product.img=this.topImages[0]
-        product.title=this.goodsInfo.title;
-        product.desc=this.goodsInfo.desc;
-        product.price=this.goodsInfo.newPrice;
-        product.iid=this.iid;
+        const product = {};
+        product.img = this.topImages[0]
+        product.title = this.goodsInfo.title;
+        product.desc = this.goodsInfo.desc;
+        product.price = this.goodsInfo.newPrice;
+        product.iid = this.iid;
         //2 将商品添加到购物车
-
+        //commit是传给mutations
+        // this.$store.commit('addCart', product)
+        //dispatch是传给action
+        this.$store.dispatch('addCart', product)
       }
     }
   }
